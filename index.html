@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
   <title>War Map System</title>
 
-  <!-- Leaflet 核心样式 -->
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
-  <!-- 自定义样式 -->
-  <link rel="stylesheet" href="style.css"/>
+  <!-- Leaflet Draw -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
 
   <style>
     html, body {
@@ -20,9 +20,9 @@
     #map {
       height: 100vh;
       width: 100%;
+      filter: contrast(1.2) brightness(0.85);
     }
 
-    /* HUD */
     .hud {
       position: absolute;
       top: 10px;
@@ -31,38 +31,35 @@
       color: #00ffe1;
       background: rgba(0,0,0,0.4);
       padding: 10px;
-      border: 1px solid rgba(0,255,225,0.3);
-      backdrop-filter: blur(8px);
       font-family: Arial;
       font-size: 12px;
+      border: 1px solid rgba(0,255,225,0.3);
+      backdrop-filter: blur(8px);
     }
   </style>
 </head>
 
 <body>
 
-<!-- HUD -->
 <div class="hud">
   WAR INTELLIGENCE SYSTEM<br/>
-  STATUS: LIVE
+  LIVE MAP
 </div>
 
-<!-- 地图容器 -->
 <div id="map"></div>
 
-<!-- =========================
-  1️⃣ Leaflet核心库
-========================= -->
+<!-- Leaflet -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- =========================
-  2️⃣ 更稳定KML支持（推荐）
-========================= -->
+<!-- KML -->
 <script src="https://unpkg.com/leaflet-omnivore/leaflet-omnivore.min.js"></script>
 
-<!-- =========================
-  3️⃣ 你的主逻辑
-========================= -->
+<!-- Draw -->
+<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+
+<!-- Turf（核心GIS计算） -->
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+
 <script src="app.js"></script>
 
 </body>
