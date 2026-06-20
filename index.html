@@ -1,69 +1,39 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="utf-8"/>
-  <title>War Map System - Full</title>
+<meta charset="utf-8"/>
+<title>War GIS System Offline</title>
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="./libs/leaflet/leaflet.css"/>
+<link rel="stylesheet" href="./libs/leaflet-draw/leaflet.draw.css"/>
+<link rel="stylesheet" href="style.css"/>
 
-  <!-- Leaflet Draw（必须） -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
-
-  <style>
-    html,body{
-      margin:0;
-      height:100%;
-      background:black;
-    }
-
-    #map{
-      height:100vh;
-      width:100%;
-      filter: contrast(1.2) brightness(0.85);
-    }
-
-    .hud{
-      position:absolute;
-      top:10px;
-      left:10px;
-      z-index:9999;
-      color:#00ffe1;
-      background:rgba(0,0,0,0.4);
-      padding:10px;
-      font-family:Arial;
-      font-size:12px;
-      border:1px solid rgba(0,255,225,0.3);
-      backdrop-filter:blur(8px);
-    }
-
-    /* 防止绘图按钮被遮挡 */
-    .leaflet-draw {
-      z-index: 9999 !important;
-    }
-  </style>
+<style>
+html,body{margin:0;height:100%;background:black;}
+#map{height:100vh;width:100%;}
+.hud{
+  position:absolute;
+  top:10px;left:10px;
+  z-index:9999;
+  color:#00ffe1;
+  background:rgba(0,0,0,0.5);
+  padding:10px;
+  border:1px solid rgba(0,255,225,0.3);
+  font-family:Arial;
+  font-size:12px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="hud">
-  WAR INTELLIGENCE SYSTEM<br/>
-  FULL GIS MODE
-</div>
-
+<div class="hud">OFFLINE WAR GIS SYSTEM</div>
 <div id="map"></div>
 
-<!-- Leaflet -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-<!-- KML -->
-<script src="https://unpkg.com/leaflet-omnivore/leaflet-omnivore.min.js"></script>
-
-<!-- Draw -->
-<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-
-<!-- GIS计算 -->
-<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+<script src="./libs/leaflet/leaflet.js"></script>
+<script src="./libs/leaflet-draw/leaflet.draw.js"></script>
+<script src="./libs/turf/turf.min.js"></script>
+<script src="./libs/omnivore/leaflet-omnivore.min.js"></script>
 
 <script src="app.js"></script>
 
