@@ -30,7 +30,6 @@ const overlays = {};   // 所有叠加层（国界/州界/战线/MyMap都会进�
 
 const layerControl = L.control.layers(baseMaps, overlays).addTo(map);
 
-L.control.layers(baseMaps).addTo(map);
 
 /* =========================
    3️⃣ 战线系统
