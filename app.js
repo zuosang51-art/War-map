@@ -141,16 +141,25 @@ renderTags();
    6️⃣ My Maps（KML接入）
 ========================= */
 fetch("./data/mymap.kml")
-.then(r=>r.text())
-.then(kmlText=>{
+  .then(res => res.text())
+  .then(kmlText => {
 
-  const parser=new DOMParser();
-  const kml=parser.parseFromString(kmlText,"text/xml");
+    // 1️⃣ 解析KML文本
+    const parser = new DOMParser();
+    const kml = parser.parseFromString(kmlText, "text/xml");
 
-  const layer=new L.KML(kml);
-  map.addLayer(layer);
+    // 2️⃣ 转成Leaflet图层
+    const kmlLayer = new L.KML(kml);
 
-});
+    // 3️⃣ 加到地图
+    kmlLayer.addTo(map);
+
+    // 4️⃣ 自动缩放到KML范围（非常重要）
+    if (kmlLayer.getBounds && kmlLayer.getBounds().isValid()) {
+      map.fitBounds(kmlLayer.getBounds());
+    }
+
+  });
 function loadGeo(layerUrl, style, name){
 
   fetch(layerUrl)
