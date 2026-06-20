@@ -2,14 +2,16 @@
 <html lang="zh">
 <head>
   <meta charset="utf-8"/>
-  <title>War Map System - Advanced</title>
+  <title>War Map System - Full GIS</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
 
+  <link rel="stylesheet" href="style.css"/>
+
   <style>
-    html, body { margin:0; height:100%; background:black; }
-    #map { height:100vh; width:100%; filter:contrast(1.2) brightness(0.85); }
+    html,body{margin:0;height:100%;background:black;}
+    #map{height:100vh;width:100%;filter:contrast(1.2) brightness(0.85);}
 
     .hud{
       position:absolute;
@@ -30,7 +32,7 @@
 
 <div class="hud">
   WAR INTELLIGENCE SYSTEM<br/>
-  ADVANCED CONTROL ZONES
+  FULL GIS MODE
 </div>
 
 <div id="map"></div>
@@ -44,7 +46,7 @@
 <!-- Draw -->
 <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-<!-- Turf（GIS核心） -->
+<!-- Turf GIS -->
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
 <script src="app.js"></script>
