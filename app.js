@@ -1,11 +1,11 @@
 
 /* =========================
-   🌍 1️⃣ 初始化地图
+   🌍 地图初始化
 ========================= */
 const map = L.map('map').setView([48.5, 37.8], 6);
 
 /* =========================
-   🗺️ 2️⃣ 底图
+   🗺️ 底图
 ========================= */
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
@@ -18,7 +18,7 @@ const terrain = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png');
 satellite.addTo(map);
 
 /* =========================
-   🧭 3️⃣ 图层控制
+   🧭 图层控制
 ========================= */
 const layerControl = L.control.layers({
   "OSM": osm,
@@ -27,21 +27,21 @@ const layerControl = L.control.layers({
 }, {}).addTo(map);
 
 /* =========================
-   ⚔️ 4️⃣ 战线系统
+   ⚔️ 战线系统
 ========================= */
 fetch("./data/frontlines.json")
 .then(r=>r.json())
 .then(data=>{
-  data.lines.forEach(line=>{
+  data.lines.forEach(l=>{
 
-    L.polyline(line.coords,{
-      color:line.color||"red",
+    L.polyline(l.coords,{
+      color:l.color||"red",
       weight:8,
       opacity:0.15
     }).addTo(map);
 
-    L.polyline(line.coords,{
-      color:line.color||"red",
+    L.polyline(l.coords,{
+      color:l.color||"red",
       weight:3
     }).addTo(map);
 
@@ -49,7 +49,7 @@ fetch("./data/frontlines.json")
 });
 
 /* =========================
-   📍 5️⃣ 点位系统
+   📍 点位系统
 ========================= */
 fetch("./data/points.json")
 .then(r=>r.json())
@@ -62,7 +62,7 @@ fetch("./data/points.json")
 });
 
 /* =========================
-   🏷️ 6️⃣ 标签系统
+   🏷️ 标签系统
 ========================= */
 let tags = JSON.parse(localStorage.getItem("tags")||"[]");
 
@@ -86,6 +86,7 @@ function save(){
 
 function renderTags(){
   tags.forEach((t,i)=>{
+
     const m = L.marker(t.coord,{
       icon:icon(t.type),
       draggable:true
@@ -102,6 +103,7 @@ function renderTags(){
       save();
       updateZones();
     });
+
   });
 }
 
@@ -112,7 +114,7 @@ function delTag(i){
 }
 
 map.on("click",e=>{
-  const name=prompt("标签名");
+  const name=prompt("标签名称");
   if(!name)return;
 
   const type=prompt("red / blue","red");
@@ -130,7 +132,7 @@ map.on("click",e=>{
 renderTags();
 
 /* =========================
-   📡 7️⃣ KML加载
+   📡 KML加载
 ========================= */
 omnivore.kml("./data/mymap.kml")
 .on("ready",function(){
@@ -140,7 +142,7 @@ omnivore.kml("./data/mymap.kml")
 });
 
 /* =========================
-   📐 8️⃣ 真实控制区（Concave Hull）
+   📐 真实控制区（Concave Hull）
 ========================= */
 
 function buildZone(points,color){
@@ -163,7 +165,7 @@ function buildZone(points,color){
     .map(c=>[c[1],c[0]]);
 
   const layer = L.polygon(coords,{
-    color:color,
+    color,
     fillColor:color,
     fillOpacity:0.25,
     weight:2
