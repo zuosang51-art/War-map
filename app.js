@@ -1,4 +1,26 @@
 const map = L.map('map').setView([48.5, 37.8], 6);
+fetch("./data/mymap.kml")
+  .then(res => res.text())
+  .then(kmlText => {
+
+    const parser = new DOMParser();
+    const kml = parser.parseFromString(kmlText, "text/xml");
+
+    const kmlLayer = new L.KML(kml);
+
+    kmlLayer.addTo(map);
+
+    // 可选：自动缩放到KML范围
+    if (kmlLayer.getBounds && kmlLayer.getBounds().isValid()) {
+      map.fitBounds(kmlLayer.getBounds());
+    }
+
+    // 可选：加入图层开关
+    if (layerControl) {
+      layerControl.addOverlay(kmlLayer, "📡 My Maps");
+    }
+
+  });
 
 /* =========================
    1️⃣ 底图系统
@@ -137,29 +159,7 @@ map.on("click",e=>{
 
 renderTags();
 
-/* =========================
-   6️⃣ My Maps（KML接入）
-========================= */
-fetch("./data/mymap.kml")
-  .then(res => res.text())
-  .then(kmlText => {
 
-    // 1️⃣ 解析KML文本
-    const parser = new DOMParser();
-    const kml = parser.parseFromString(kmlText, "text/xml");
-
-    // 2️⃣ 转成Leaflet图层
-    const kmlLayer = new L.KML(kml);
-
-    // 3️⃣ 加到地图
-    kmlLayer.addTo(map);
-
-    // 4️⃣ 自动缩放到KML范围（非常重要）
-    if (kmlLayer.getBounds && kmlLayer.getBounds().isValid()) {
-      map.fitBounds(kmlLayer.getBounds());
-    }
-
-  });
 function loadGeo(layerUrl, style, name){
 
   fetch(layerUrl)
