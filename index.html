@@ -1,8 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8"/>
-  <title>War Map System</title>
+  <meta charset="utf-8" />
+
+  <title>War Map</title>
+
+  <!-- 1️⃣ Leaflet样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <!-- 2️⃣ 你的CSS -->
+  <link rel="stylesheet" href="style.css"/>
+
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<!-- 3️⃣ Leaflet核心库（必须在最前） -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- 4️⃣ KML插件 -->
+<script src="https://unpkg.com/leaflet-plugins/layer/vector/KML.js"></script>
+
+<!-- 5️⃣ 你的逻辑 -->
+<script src="app.js"></script>
+
+</body>
+</html>
 
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
