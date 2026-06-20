@@ -26,6 +26,10 @@ const baseMaps = {
   "⛰️ 地形": terrain
 };
 
+const overlays = {};   // 所有叠加层（国界/州界/战线/MyMap都会进这里）
+
+const layerControl = L.control.layers(baseMaps, overlays).addTo(map);
+
 L.control.layers(baseMaps).addTo(map);
 
 /* =========================
@@ -148,3 +152,20 @@ fetch("./data/mymap.kml")
   map.addLayer(layer);
 
 });
+function loadGeo(layerUrl, style, name){
+
+  fetch(layerUrl)
+    .then(res => res.json())
+    .then(data => {
+
+      const layer = L.geoJSON(data, {
+        style: style
+      });
+
+      layer.addTo(map);
+
+      overlays[name] = layer;
+
+      layerControl.addOverlay(layer, name);
+    });
+}
