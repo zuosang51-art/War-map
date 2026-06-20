@@ -2,52 +2,32 @@
 <html>
 <head>
   <meta charset="utf-8" />
+  <title>Test Map</title>
 
-  <title>War Map</title>
-
-  <!-- 1️⃣ Leaflet样式 -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
-  <!-- 2️⃣ 你的CSS -->
-  <link rel="stylesheet" href="style.css"/>
-
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
 
 <div id="map"></div>
 
-<!-- 3️⃣ Leaflet核心库（必须在最前） -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- 4️⃣ KML插件 -->
-<script src="https://unpkg.com/leaflet-plugins/layer/vector/KML.js"></script>
+<script>
+  const map = L.map('map').setView([48.5, 37.8], 6);
 
-<!-- 5️⃣ 你的逻辑 -->
-<script src="app.js"></script>
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'OSM'
+  }).addTo(map);
 
-</body>
-</html>
+</script>
 
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
-  <!-- KML插件 -->
-  <script src="https://unpkg.com/leaflet-plugins/layer/vector/KML.js"></script>
-</head>
-
-<body>
-
-<div class="hud">
-  <div>WAR INTELLIGENCE SYSTEM</div>
-  <div>STATUS: LIVE</div>
-</div>
-
-<div id="map"></div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="app.js"></script>
-<script src="https://unpkg.com/leaflet-plugins/layer/vector/KML.js"></script>
-  
 </body>
 </html>
