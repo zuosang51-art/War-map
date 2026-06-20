@@ -2,39 +2,26 @@
 <html lang="zh">
 <head>
   <meta charset="utf-8"/>
-  <title>War Map System</title>
+  <title>War Map System - Advanced</title>
 
-  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
-  <!-- Leaflet Draw -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
 
   <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-      background: black;
-    }
+    html, body { margin:0; height:100%; background:black; }
+    #map { height:100vh; width:100%; filter:contrast(1.2) brightness(0.85); }
 
-    #map {
-      height: 100vh;
-      width: 100%;
-      filter: contrast(1.2) brightness(0.85);
-    }
-
-    .hud {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 9999;
-      color: #00ffe1;
-      background: rgba(0,0,0,0.4);
-      padding: 10px;
-      font-family: Arial;
-      font-size: 12px;
-      border: 1px solid rgba(0,255,225,0.3);
-      backdrop-filter: blur(8px);
+    .hud{
+      position:absolute;
+      top:10px;left:10px;
+      z-index:9999;
+      color:#00ffe1;
+      background:rgba(0,0,0,0.4);
+      padding:10px;
+      font-family:Arial;
+      font-size:12px;
+      border:1px solid rgba(0,255,225,0.3);
+      backdrop-filter:blur(8px);
     }
   </style>
 </head>
@@ -43,7 +30,7 @@
 
 <div class="hud">
   WAR INTELLIGENCE SYSTEM<br/>
-  LIVE MAP
+  ADVANCED CONTROL ZONES
 </div>
 
 <div id="map"></div>
@@ -57,7 +44,7 @@
 <!-- Draw -->
 <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-<!-- Turf（核心GIS计算） -->
+<!-- Turf（GIS核心） -->
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
 <script src="app.js"></script>
