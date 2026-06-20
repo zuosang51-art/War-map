@@ -1,92 +1,85 @@
- /***********************
-  🌍 1️⃣ 初始化地图
-***********************/
+
+/* =========================
+   🌍 1️⃣ 初始化地图
+========================= */
 const map = L.map('map').setView([48.5, 37.8], 6);
 
-/***********************
-  🗺️ 2️⃣ 底图系统
-***********************/
-const osm = L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-);
+/* =========================
+   🗺️ 2️⃣ 底图
+========================= */
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
 const satellite = L.tileLayer(
-  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}'
 );
 
-const terrain = L.tileLayer(
-  'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
-);
+const terrain = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png');
 
 satellite.addTo(map);
 
-/***********************
-  🧭 3️⃣ 图层控制器（必须最先建好）
-***********************/
+/* =========================
+   🧭 3️⃣ 图层控制
+========================= */
 const baseMaps = {
-  "🗺️ OSM": osm,
-  "🛰️ 卫星": satellite,
-  "⛰️ 地形": terrain
+  "OSM": osm,
+  "卫星": satellite,
+  "地形": terrain
 };
 
 const overlays = {};
 
 const layerControl = L.control.layers(baseMaps, overlays).addTo(map);
 
-/***********************
-  ⚔️ 4️⃣ 战线系统
-***********************/
+/* =========================
+   ⚔️ 4️⃣ 战线
+========================= */
 fetch("./data/frontlines.json")
-  .then(r => r.json())
-  .then(data => {
+.then(r=>r.json())
+.then(data=>{
 
-    data.lines.forEach(line => {
+  data.lines.forEach(line=>{
 
-      // 发光层
-      L.polyline(line.coords, {
-        color: line.color || "#ff0033",
-        weight: 8,
-        opacity: 0.15
-      }).addTo(map);
+    L.polyline(line.coords,{
+      color: line.color || "red",
+      weight: 8,
+      opacity: 0.15
+    }).addTo(map);
 
-      // 主线
-      L.polyline(line.coords, {
-        color: line.color || "#ff0033",
-        weight: 3
-      }).addTo(map);
+    L.polyline(line.coords,{
+      color: line.color || "red",
+      weight: 3
+    }).addTo(map);
 
-    });
+  });
 
-  })
-  .catch(err => console.error("战线加载失败", err));
+});
 
-/***********************
-  📍 5️⃣ 点位系统
-***********************/
+/* =========================
+   📍 5️⃣ 点位
+========================= */
 fetch("./data/points.json")
-  .then(r => r.json())
-  .then(data => {
+.then(r=>r.json())
+.then(data=>{
 
-    data.points.forEach(p => {
-      L.marker(p.coord)
-        .addTo(map)
-        .bindPopup(`<b>${p.name}</b><br>${p.side}`);
-    });
+  data.points.forEach(p=>{
+    L.marker(p.coord)
+      .addTo(map)
+      .bindPopup(p.name + "<br>" + p.side);
+  });
 
-  })
-  .catch(err => console.error("点位加载失败", err));
+});
 
-/***********************
-  🏷️ 6️⃣ 标签系统（可编辑）
-***********************/
+/* =========================
+   🏷️ 6️⃣ 标签系统
+========================= */
 let tags = JSON.parse(localStorage.getItem("tags") || "[]");
 
-function icon(type) {
-  const c = type === "red" ? "red" : type === "blue" ? "blue" : "gray";
+function icon(type){
+  const c = type==="red"?"red":type==="blue"?"blue":"gray";
 
   return L.divIcon({
-    className: "tag",
-    html: `<div style="
+    className:"tag",
+    html:`<div style="
       width:12px;height:12px;
       border-radius:50%;
       background:${c};
@@ -95,50 +88,51 @@ function icon(type) {
   });
 }
 
-function save() {
-  localStorage.setItem("tags", JSON.stringify(tags));
+function save(){
+  localStorage.setItem("tags",JSON.stringify(tags));
 }
 
-function delTag(i) {
-  tags.splice(i, 1);
-  save();
-  location.reload();
-}
+function renderTags(){
+  tags.forEach((t,i)=>{
 
-function renderTags() {
-  tags.forEach((t, i) => {
-
-    const m = L.marker(t.coord, {
+    const m = L.marker(t.coord,{
       icon: icon(t.type),
-      draggable: true
+      draggable:true
     }).addTo(map);
 
     m.bindPopup(`
       <b>${t.name}</b><br>
-      ${t.type}<br>
-      <button onclick="delTag(${i})">删除</button>
+      ${t.type}
+      <br><button onclick="delTag(${i})">删除</button>
     `);
 
-    m.on("dragend", e => {
-      const p = e.target.getLatLng();
-      tags[i].coord = [p.lat, p.lng];
+    m.on("dragend",e=>{
+      const p=e.target.getLatLng();
+      tags[i].coord=[p.lat,p.lng];
       save();
+      updateZones();
     });
 
   });
 }
 
-map.on("click", e => {
+function delTag(i){
+  tags.splice(i,1);
+  save();
+  location.reload();
+}
 
-  const name = prompt("标签名称");
-  if (!name) return;
+map.on("click",e=>{
 
-  const type = prompt("red / blue / gray", "gray");
+  const name=prompt("标签名");
+  if(!name)return;
+
+  const type=prompt("red / blue","red");
 
   tags.push({
     name,
     type,
-    coord: [e.latlng.lat, e.latlng.lng]
+    coord:[e.latlng.lat,e.latlng.lng]
   });
 
   save();
@@ -147,27 +141,84 @@ map.on("click", e => {
 
 renderTags();
 
-/***********************
-  📡 7️⃣ KML / My Maps（稳定版）
-***********************/
-let kmlLayer;
-
+/* =========================
+   📡 7️⃣ KML
+========================= */
 omnivore.kml("./data/mymap.kml")
-  .on("ready", function () {
+.on("ready",function(){
 
-    kmlLayer = this;
+  this.addTo(map);
+  layerControl.addOverlay(this,"My Maps");
 
-    kmlLayer.addTo(map);
+  map.fitBounds(this.getBounds());
 
-    layerControl.addOverlay(kmlLayer, "📡 My Maps");
+});
 
-    if (kmlLayer.getBounds && kmlLayer.getBounds().isValid()) {
-      map.fitBounds(kmlLayer.getBounds());
+/* =========================
+   📐 8️⃣ 控制区 + 面积系统
+========================= */
+let redLayer, blueLayer;
+
+function updateZones(){
+
+  if(redLayer) map.removeLayer(redLayer);
+  if(blueLayer) map.removeLayer(blueLayer);
+
+  let red = tags.filter(t=>t.type==="red");
+  let blue = tags.filter(t=>t.type==="blue");
+
+  if(red.length>=3){
+
+    const fc = turf.featureCollection(
+      red.map(p=>turf.point([p.coord[1],p.coord[0]]))
+    );
+
+    const hull = turf.convex(fc);
+
+    if(hull){
+
+      const coords = hull.geometry.coordinates[0]
+        .map(c=>[c[1],c[0]]);
+
+      redLayer = L.polygon(coords,{
+        color:"red",
+        fillOpacity:0.2
+      }).addTo(map);
+
+      const area = turf.area(hull)/1e6;
+
+      redLayer.bindPopup("红方控制区<br>面积：" + area.toFixed(2)+" km²");
+
+      layerControl.addOverlay(redLayer,"红方控制区");
     }
+  }
 
-    console.log("KML加载成功");
+  if(blue.length>=3){
 
-  })
-  .on("error", function (e) {
-    console.error("KML加载失败", e);
-  });
+    const fc = turf.featureCollection(
+      blue.map(p=>turf.point([p.coord[1],p.coord[0]]))
+    );
+
+    const hull = turf.convex(fc);
+
+    if(hull){
+
+      const coords = hull.geometry.coordinates[0]
+        .map(c=>[c[1],c[0]]);
+
+      blueLayer = L.polygon(coords,{
+        color:"blue",
+        fillOpacity:0.2
+      }).addTo(map);
+
+      const area = turf.area(hull)/1e6;
+
+      blueLayer.bindPopup("蓝方控制区<br>面积：" + area.toFixed(2)+" km²");
+
+      layerControl.addOverlay(blueLayer,"蓝方控制区");
+    }
+  }
+}
+
+/* 初始化控制区 */
+updateZones();
