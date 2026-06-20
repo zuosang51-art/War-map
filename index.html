@@ -2,20 +2,31 @@
 <html lang="zh">
 <head>
   <meta charset="utf-8"/>
-  <title>War Map System - Full GIS</title>
+  <title>War Map System - Full</title>
 
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <!-- Leaflet Draw（必须） -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
 
-  <link rel="stylesheet" href="style.css"/>
-
   <style>
-    html,body{margin:0;height:100%;background:black;}
-    #map{height:100vh;width:100%;filter:contrast(1.2) brightness(0.85);}
+    html,body{
+      margin:0;
+      height:100%;
+      background:black;
+    }
+
+    #map{
+      height:100vh;
+      width:100%;
+      filter: contrast(1.2) brightness(0.85);
+    }
 
     .hud{
       position:absolute;
-      top:10px;left:10px;
+      top:10px;
+      left:10px;
       z-index:9999;
       color:#00ffe1;
       background:rgba(0,0,0,0.4);
@@ -24,6 +35,11 @@
       font-size:12px;
       border:1px solid rgba(0,255,225,0.3);
       backdrop-filter:blur(8px);
+    }
+
+    /* 防止绘图按钮被遮挡 */
+    .leaflet-draw {
+      z-index: 9999 !important;
     }
   </style>
 </head>
@@ -46,7 +62,7 @@
 <!-- Draw -->
 <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-<!-- Turf GIS -->
+<!-- GIS计算 -->
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
 <script src="app.js"></script>
